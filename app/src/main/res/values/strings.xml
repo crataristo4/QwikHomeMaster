@@ -1,0 +1,97 @@
+<resources>
+    <string name="app_name">QwikHome Services</string>
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
+    <string name="title_activity_main2">QwikHome Services</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="some_text_description">Some Text Description</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="_15_n_projects">15   projects</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="profession_prompt">Choose your profession </string>
+    <string name="view">View</string>
+    <string name="you_requested_a_job_to_be_done">Job Requested</string>
+    <string name="delete">Delete</string>
+    <string name="done">Done</string>
+    <string name="reset">Reset</string>
+    <string name="cancel">Cancel</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="log_in">Log In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="enter_email">Enter email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="firstname">First name</string>
+    <string name="email">Email</string>
+    <string name="mobile_number">Phone number</string>
+    <string name="location">Location</string>
+    <string name="last_name">Last name</string>
+    <string name="dont_have_an_account_yet">Don\'t have an account yet?</string>
+    <string name="enter_full_name">Enter full name</string>
+    <string name="already_have_an_account">Already have an account ?</string>
+    <string name="we_will_send_a_link_to_your_email_once_you_submit_it">We will send a link to your email to change your password once it is submitted</string>
+    <string name="to_complete_the_registration_process_please_add_a_password">To complete the registration process please add a password</string>
+    <string name="sign_up_today_and_enjoy">Want to enjoy quick and affordable services?Don\'t miss out ,sign up now</string>
+    <string name="profileDetails">Hi! My name is Mark, I’m a Professional hair stylist from Legon, GH. Display about here. Contact me at +233 014 021 0319.\n
+        Want to enjoy quick and affordable services?Don\'t miss out ,sign up nowWant to enjoy quick and affordable services?Don\'t miss out ,sign up now</string>
+    <string name="call">CALL</string>
+    <string name="message">MESSAGE</string>
+
+
+    <string-array name="plate_initials">
+        <item>Carpenter</item>
+        <item>Mechanic</item>
+        <item>Pest Control</item>
+        <item>Plumber</item>
+        <item>Tv Installer</item>
+        <item>Tiler</item>
+        <item>Carpenter</item>
+        <item>Roller</item>
+        <item>Gardener</item>
+        <item>Painter</item>
+    </string-array>
+
+    <string-array name="userTypes">
+        <item>Select an account type</item>
+        <item>Barber</item>
+        <item>Women Hairstylist</item>
+        <item>Interior Decorator</item>
+
+    </string-array>
+    <string name="title_activity_handy_man_maps">Map</string>
+    <string name="mchin">Getting your mechanic....</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="write_your_message">Write your message</string>
+    <string name="rate">Rate</string>
+    <string name="finish">finish</string>
+    <string name="reset_password">Reset password</string>
+    <string name="home">Home</string>
+    <string name="posts">Posts</string>
+    <string name="activities">Activities</string>
+    <string name="history">History</string>
+    <string name="nearMe">Near me</string>
+    <string name="profile">Profile</string>
+    <string name="dummy_location">Dummy Location</string>
+    <string name="dummy_name">Dummy Name</string>
+    <string name="hair_dresser">Hair Dresser</string>
+    <string name="Decorations">Decoration</string>
+    <string name="barbering">Barbering</string>
+    <string name="briefly_tell_us_about_yourself">Briefly tell us about yourself</string>
+    <string name="style_name">Style name</string>
+    <string name="add_a_price">Add a price</string>
+    <string name="add">Add</string>
+    <string name="dummyText">Add a picture of t, price and the name of what you can do to help others identify you</string>
+</resources>
