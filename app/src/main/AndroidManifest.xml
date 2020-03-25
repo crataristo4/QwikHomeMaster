@@ -28,14 +28,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.auth.signup.SignUpServicePersonelActivity"></activity>
         <activity
+            android:name=".activities.auth.signup.SignUpServicePersonelActivity"
+            android:alwaysRetainTaskState="true"
+            android:exported="true" />
+        <activity
+            android:alwaysRetainTaskState="true"
+            android:exported="true"
             android:name=".activities.home.about.JobTypesActivity"
             android:configChanges="screenSize|orientation"
-            android:parentActivityName=".activities.home.about.AboutActivity"></activity>
+            android:parentActivityName=".activities.home.about.AboutActivity" />
         <activity
             android:name=".activities.home.about.AboutActivity"
-            android:configChanges="orientation|screenSize">
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize"
+            android:exported="true">
 
         </activity>
         <activity
@@ -58,13 +65,18 @@
             android:configChanges="screenSize|orientation" />
         <activity
             android:name=".activities.auth.signup.SignupCompleteActivity"
-            android:configChanges="screenSize|orientation" />
+            android:alwaysRetainTaskState="true"
+            android:configChanges="screenSize|orientation"
+            android:exported="true" />
         <activity
             android:name=".activities.auth.signup.SignupActivity"
             android:configChanges="screenSize|orientation" />
         <activity
             android:name=".activities.auth.LoginActivity"
-            android:configChanges="screenSize|orientation" />
+            android:alwaysRetainTaskState="true"
+            android:configChanges="screenSize|orientation"
+            android:exported="true" />
+
         <activity android:name=".activities.welcome.OnboardingScreenActivity" />
         <activity android:name=".activities.customeractivity.ShowRouteActivity" />
         <activity

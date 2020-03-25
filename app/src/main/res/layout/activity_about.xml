@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".activities.home.about.AboutActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar6"
-            android:layout_width="409dp"
-            app:title="About you"
-            android:background="@color/purple"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@color/purple"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ToolBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="About you" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutAbout"
@@ -30,6 +29,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="16dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="500"
             app:layout_constraintBottom_toTopOf="@+id/btnNext"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,9 +41,8 @@
                 android:id="@+id/innerInputAbout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textImeMultiLine"
-                android:imeOptions="actionNext"
-                android:hint="@string/briefly_tell_us_about_yourself" />
+                android:hint="@string/briefly_tell_us_about_yourself"
+                android:inputType="textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

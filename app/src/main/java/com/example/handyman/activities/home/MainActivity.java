@@ -2,6 +2,7 @@ package com.example.handyman.activities.home;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,12 +10,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.handyman.R;
+import com.example.handyman.activities.home.about.AboutActivity;
 import com.example.handyman.activities.home.fragments.ActivitiesFragment;
 import com.example.handyman.activities.home.fragments.HistoryFragment;
 import com.example.handyman.activities.home.fragments.HomeFragment;
 import com.example.handyman.activities.home.fragments.NearMeFragment;
 import com.example.handyman.activities.home.fragments.ProfileFragment;
 import com.example.handyman.activities.welcome.SplashScreenActivity;
+import com.example.handyman.utils.DisplayViewUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +38,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        DisplayViewUI.displayAlertDialogMsg(this,
+                "To allow more viewers on your account,please edit profile",
+                "OK", (dialog, which) -> {
+                    if (which == -1) {
+
+                        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+                        SharedPreferences.Editor edit = pref.edit();
+                        edit.putBoolean("done", true);
+                        edit.apply();
+                        dialog.dismiss();
+
+                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                    }
+                });
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
@@ -102,5 +120,11 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }

@@ -22,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
-    private Intent intent;
     private String currentUserId, passAccountTypeValue;
 
     @Override
@@ -32,13 +31,12 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
-        assert firebaseUser != null;
-        currentUserId = firebaseUser.getUid();
+
 
         mLoginEmail = findViewById(R.id.txtEmailLayout);
         mLoginPassword = findViewById(R.id.txtPasswordLayout);
 
-        intent = getIntent();
+        Intent intent = getIntent();
         if (intent != null) {
             passAccountTypeValue = intent.getStringExtra("accountType");
         }
@@ -87,6 +85,9 @@ public class LoginActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             if (mAuth.getCurrentUser().isEmailVerified()) {
+                                assert firebaseUser != null;
+                                currentUserId = firebaseUser.getUid();
+
                                 Intent gotoAbout = new Intent(LoginActivity.this, AboutActivity.class);
                                 gotoAbout.putExtra("userId", currentUserId);
                                 gotoAbout.putExtra("accountType", passAccountTypeValue);

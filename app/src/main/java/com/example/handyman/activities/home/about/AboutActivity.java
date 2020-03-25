@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -27,10 +28,16 @@ public class AboutActivity extends AppCompatActivity {
     private ActivityAboutBinding activityAboutBinding;
     private TextInputLayout txtAbout;
     private DatabaseReference serviceAccountDbRef;
+    public static final String ABOUT = "about";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            activityAboutBinding.textInputLayoutAbout.getEditText()
+                    .setText(savedInstanceState.getString(ABOUT));
+        }
 
         activityAboutBinding = DataBindingUtil.setContentView(this, R.layout.activity_about);
 
@@ -97,6 +104,20 @@ public class AboutActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+
+        outState.putString(ABOUT, activityAboutBinding.textInputLayoutAbout.getEditText().getText().toString());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        activityAboutBinding.textInputLayoutAbout.getEditText()
+                .setText(savedInstanceState.getString(ABOUT));
     }
 
     @Override

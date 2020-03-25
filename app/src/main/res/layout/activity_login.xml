@@ -43,6 +43,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:paddingStart="@dimen/eightDp"
+                android:importantForAutofill="yes"
                 android:paddingEnd="@dimen/eightDp"
                 android:singleLine="true"
                 android:textColor="@color/purple" />
