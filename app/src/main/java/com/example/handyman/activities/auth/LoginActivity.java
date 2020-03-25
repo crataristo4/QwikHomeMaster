@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.handyman.R;
 import com.example.handyman.activities.auth.resetpass.ResetPasswordActivity;
-import com.example.handyman.activities.auth.signup.SignupActivity;
+import com.example.handyman.activities.auth.signup.SignUpServicePersonelActivity;
 import com.example.handyman.activities.home.about.AboutActivity;
 import com.example.handyman.utils.DisplayViewUI;
 import com.google.android.material.textfield.TextInputLayout;
@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void gotoSignUp(View view) {
         startActivity(
-                new Intent(LoginActivity.this, SignupActivity.class)
+                new Intent(LoginActivity.this, SignUpServicePersonelActivity.class)
         );
     }
 

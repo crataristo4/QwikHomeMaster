@@ -12,7 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.handyman.R;
 import com.example.handyman.activities.auth.LoginActivity;
-import com.example.handyman.activities.auth.signup.SignupActivity;
+import com.example.handyman.activities.auth.signup.SignUpServicePersonelActivity;
 import com.example.handyman.adapters.SlidePagerAdapter;
 import com.example.handyman.databinding.ActivityOnboardingScreenBinding;
 
@@ -45,7 +45,7 @@ public class OnboardingScreenActivity extends AppCompatActivity {
             );
         } else if (view.getId() == R.id.btnNext) {
             startActivity(
-                    new Intent(OnboardingScreenActivity.this, SignupActivity.class)
+                    new Intent(OnboardingScreenActivity.this, SignUpServicePersonelActivity.class)
             );
         }
     }

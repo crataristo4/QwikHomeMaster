@@ -64,15 +64,14 @@
 
     <string-array name="userTypes">
         <item>Select an account type</item>
-        <item>Barber</item>
-        <item>Women Hairstylist</item>
-        <item>Interior Decorator</item>
+        <item>Barbers</item>
+        <item>Women Hairstylists</item>
+        <item>Interior Decorators</item>
 
     </string-array>
     <string name="title_activity_handy_man_maps">Map</string>
     <string name="mchin">Getting your mechanic....</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="write_your_message">Write your message</string>
     <string name="rate">Rate</string>

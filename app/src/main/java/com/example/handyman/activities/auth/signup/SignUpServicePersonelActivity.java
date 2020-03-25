@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -14,10 +15,10 @@ import com.example.handyman.utils.DisplayViewUI;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class SignUpServicePersonelActivity extends AppCompatActivity {
 
+    String getAccountType;
     private ActivitySignUpServicePersonelBinding activitySignUpServicePersonelBinding;
     private TextInputLayout txtFullName, txtEmail;
 
@@ -29,11 +30,48 @@ public class SignUpServicePersonelActivity extends AppCompatActivity {
         txtEmail = activitySignUpServicePersonelBinding.txtEmailLayout;
         txtFullName = activitySignUpServicePersonelBinding.txtfullNameLayout;
 
+
+        activitySignUpServicePersonelBinding.spinnerAccountType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    DisplayViewUI.displayToast(view.getContext(), "Please select account type");
+
+                    activitySignUpServicePersonelBinding.btnNext.setEnabled(false);
+                } else if (position == 1) {
+
+                    getAccountType = parent.getItemAtPosition(1).toString();
+                    activitySignUpServicePersonelBinding.btnNext.setEnabled(true);
+
+                } else if (position == 2) {
+                    getAccountType = parent.getItemAtPosition(2).toString();
+                    activitySignUpServicePersonelBinding.btnNext.setEnabled(true);
+
+                } else if (position == 3) {
+                    getAccountType = parent.getItemAtPosition(3).toString();
+                    activitySignUpServicePersonelBinding.btnNext.setEnabled(true);
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
     }
 
     public void gotoNext(View view) {
 
-        validateAndProceed();
+        if (view.isEnabled()) {
+
+            validateAndProceed();
+
+        }
 
 
     }
@@ -41,27 +79,6 @@ public class SignUpServicePersonelActivity extends AppCompatActivity {
     private void validateAndProceed() {
         String getFullName = Objects.requireNonNull(txtFullName.getEditText()).getText().toString();
         String getEmail = Objects.requireNonNull(txtEmail.getEditText()).getText().toString();
-        final AtomicReferenceArray<String> getAccountType = new AtomicReferenceArray<>(new String[]{""});
-
-        activitySignUpServicePersonelBinding.spinnerAccountType.setOnItemClickListener((parent, view, position, id) -> {
-            if (position == 0) {
-                DisplayViewUI.displayToast(view.getContext(), "Please select account type");
-            } else if (position == 1) {
-
-                getAccountType.set(0, parent.getItemAtPosition(1).toString());
-
-            } else if (position == 2) {
-                getAccountType.set(0, parent.getItemAtPosition(2).toString());
-
-            } else if (position == 3) {
-                getAccountType.set(0, parent.getItemAtPosition(3).toString());
-
-            }
-        });
-        activitySignUpServicePersonelBinding.spinnerAccountType.setOnItemClickListener((parent, view, position, id) -> {
-
-
-        });
 
         if (getFullName.trim().isEmpty()) {
             txtFullName.setErrorEnabled(true);

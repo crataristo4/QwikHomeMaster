@@ -50,7 +50,10 @@ public class AboutActivity extends AppCompatActivity {
             return true;
         });
 
-        serviceAccountDbRef = FirebaseDatabase.getInstance().getReference("Services").child(accountType);
+        serviceAccountDbRef = FirebaseDatabase.getInstance()
+                .getReference("Services")
+                .child(accountType)
+                .child(uid);
 
     }
 

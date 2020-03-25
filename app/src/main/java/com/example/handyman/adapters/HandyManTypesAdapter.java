@@ -97,7 +97,7 @@ public class HandyManTypesAdapter extends FirebaseRecyclerAdapter<ServicePerson,
             intent.putExtra("name", model.getName());
             intent.putExtra("image", model.getImage());
             intent.putExtra("occupation", model.getOccupation());
-            intent.putExtra("details", model.getDetails());
+            intent.putExtra("details", model.getAbout());
             intent.putExtra("location", model.getLocation());
             intent.putExtra("handyManId", model.getUserId());
             intent.putExtra("latitude", model.getLatitude());

@@ -3,9 +3,7 @@ package com.example.handyman.activities.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -40,40 +38,37 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment fragment = null;
-                switch (menuItem.getItemId()) {
-                    case R.id.action_activities:
-                        fragment = activityFragment;
-                        break;
-                    case R.id.action_near_me:
-                        fragment = nearMeFragment;
-                        break;
-                    case R.id.action_home:
-                        fragment = homeFragment;
-                        break;
+        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+            Fragment fragment = null;
+            switch (menuItem.getItemId()) {
+                case R.id.action_activities:
+                    fragment = activityFragment;
+                    break;
+                case R.id.action_near_me:
+                    fragment = nearMeFragment;
+                    break;
+                case R.id.action_home:
+                    fragment = homeFragment;
+                    break;
 
-                    case R.id.action_profile:
-                        fragment = profileFragment;
-                        break;
-                    case R.id.action_history:
-                        fragment = historyFragment;
-                        break;
-                }
-
-                assert fragment != null;
-
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right,
-                                R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
-                        .replace(R.id.fragmentContainer, fragment)
-                        //.addToBackStack(null)
-                        .commit();
-
-                return true;
+                case R.id.action_profile:
+                    fragment = profileFragment;
+                    break;
+                case R.id.action_history:
+                    fragment = historyFragment;
+                    break;
             }
+
+            assert fragment != null;
+
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.enter_from_right,
+                            R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                    .replace(R.id.fragmentContainer, fragment)
+                    //.addToBackStack(null)
+                    .commit();
+
+            return true;
         });
 
         bottomNavigationView.setSelectedItemId(R.id.action_home);
