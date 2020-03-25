@@ -36,10 +36,10 @@ public class LoginActivity extends AppCompatActivity {
         mLoginEmail = findViewById(R.id.txtEmailLayout);
         mLoginPassword = findViewById(R.id.txtPasswordLayout);
 
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         if (intent != null) {
             passAccountTypeValue = intent.getStringExtra("accountType");
-        }
+        }*/
 
     }
 
@@ -86,11 +86,11 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             if (mAuth.getCurrentUser().isEmailVerified()) {
                                 assert firebaseUser != null;
-                                currentUserId = firebaseUser.getUid();
+                                //currentUserId = firebaseUser.getUid();
 
                                 Intent gotoAbout = new Intent(LoginActivity.this, AboutActivity.class);
-                                gotoAbout.putExtra("userId", currentUserId);
-                                gotoAbout.putExtra("accountType", passAccountTypeValue);
+                                //gotoAbout.putExtra("userId", currentUserId);
+                                // gotoAbout.putExtra("accountType", passAccountTypeValue);
 
                                 startActivity(gotoAbout
                                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));

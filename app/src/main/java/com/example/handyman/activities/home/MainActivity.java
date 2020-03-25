@@ -37,22 +37,25 @@ public class MainActivity extends AppCompatActivity {
 
         checkDisplayAlertDialog();
 
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.action_activities, R.id.action_near_me,
-                R.id.action_home, R.id.action_profile, R.id.action_history)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(activityMainBinding.bottomNavigationView, navController);
+        setUpAppBarConfig();
 
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
         if (mAuth.getCurrentUser() == null) {
             return;
         }
+
+    }
+
+    private void setUpAppBarConfig() {
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_activities, R.id.navigation_home, R.id.navigation_profile)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(activityMainBinding.bottomNavigationView, navController);
 
     }
 
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     "OK", (dialog, which) -> {
                         if (which == -1) {
 
+                            dialog.dismiss();
                             startActivity(new Intent(MainActivity.this, AboutActivity.class));
                         }
                     });

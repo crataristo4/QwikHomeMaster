@@ -2,39 +2,39 @@ package com.example.handyman.activities.welcome;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.example.handyman.R;
+import com.example.handyman.databinding.ActivitySplashScreenBinding;
 
 public class SplashScreenActivity extends AppCompatActivity {
+
+    ActivitySplashScreenBinding activitySplashScreenBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        overridePendingTransition(R.anim.fadein, R.anim.explode);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
+        activitySplashScreenBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen);
 
-        //creates an instance of the ShowSplash class
-        ShowSplash showSplash = new ShowSplash();
-        //Calls the start method in the Thread class and waits for two seconds
-        showSplash.start();
-    }
+        activitySplashScreenBinding.imageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.from_top));
+        activitySplashScreenBinding.textView2.startAnimation(AnimationUtils.loadAnimation(this, R.anim.from_bottom));
 
-    //An inner class that blocks the UI and causes threading
-    private class ShowSplash extends Thread {
-        @Override
-        public void run() {
-            try {
-                sleep(2000);
-
-            } catch (Exception e) {
-                e.printStackTrace();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Opens the Welcome Screen Activity once the time elapses
+                startActivity(new Intent(SplashScreenActivity.this, WelcomeActivity.class));
+                finish();
             }
-            //Opens the Welcome Screen Activity once the time elapses
-            startActivity(new Intent(SplashScreenActivity.this, WelcomeActivity.class));
-            finish();
-        }
+        }, 3000);
     }
+
+
 }

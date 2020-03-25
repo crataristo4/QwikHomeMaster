@@ -123,7 +123,7 @@ public class SignupCompleteActivity extends AppCompatActivity {
                                                         dialog.dismiss();
 
                                                         Intent gotoLogin = new Intent(SignupCompleteActivity.this, LoginActivity.class);
-                                                        gotoLogin.putExtra("accountType", accountType);
+                                                        // gotoLogin.putExtra("accountType", accountType);
                                                         startActivity(gotoLogin);
                                                         finish();
 

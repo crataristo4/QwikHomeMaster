@@ -29,16 +29,19 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.auth.signup.SignUpServicePersonelActivity"
             android:alwaysRetainTaskState="true"
             android:exported="true" />
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:alwaysRetainTaskState="true"
             android:exported="true"
             android:name=".activities.home.about.JobTypesActivity"
             android:configChanges="screenSize|orientation"
             android:parentActivityName=".activities.home.about.AboutActivity" />
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.home.about.AboutActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize"
@@ -47,8 +50,7 @@
         </activity>
         <activity
             android:name=".activities.home.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -61,17 +63,21 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.auth.resetpass.ResetPasswordActivity"
             android:configChanges="screenSize|orientation" />
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.auth.signup.SignupCompleteActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="screenSize|orientation"
             android:exported="true" />
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.auth.signup.SignupActivity"
             android:configChanges="screenSize|orientation" />
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.auth.LoginActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="screenSize|orientation"
@@ -82,8 +88,9 @@
         <activity
             android:name=".activities.customeractivity.RatingActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.customeractivity.ChatActivity"
             android:configChanges="screenSize|orientation"
             android:parentActivityName=".activities.handymanactivity.RequestHandyManActivity" />
@@ -109,8 +116,12 @@
         <activity
             android:name=".activities.customeractivity.HandyManMapsActivity"
             android:label="@string/title_activity_handy_man_maps" />
-        <activity android:name=".activities.welcome.SplashScreenActivity" />
-        <activity android:name=".activities.handymanactivity.AcceptOrRejectActivity" />
+        <activity
+            android:name=".activities.welcome.SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.handymanactivity.AcceptOrRejectActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.handymanactivity.HandyManLogin" />
         <activity android:name=".activities.handymanactivity.MainActivityHandyMen" />
         <activity android:name=".models.Listofrequest" />
@@ -126,7 +137,9 @@
         <activity
             android:name=".activities.customeractivity.CustomerRegister"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.welcome.WelcomeActivity" />
+        <activity
+            android:name=".activities.welcome.WelcomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.customeractivity.CustomerLogin" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

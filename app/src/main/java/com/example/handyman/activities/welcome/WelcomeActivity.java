@@ -1,80 +1,62 @@
 package com.example.handyman.activities.welcome;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.databinding.DataBindingUtil;
 
 import com.example.handyman.R;
-import com.example.handyman.activities.auth.LoginActivity;
-import com.example.handyman.activities.auth.signup.SignUpServicePersonelActivity;
+import com.example.handyman.activities.ItemViewClickEvents;
 import com.example.handyman.adapters.SlidePagerAdapter;
+import com.example.handyman.databinding.ActivityWelcomeBinding;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import me.relex.circleindicator.CircleIndicator;
-
 public class WelcomeActivity extends AppCompatActivity {
 
-
-    Button btnLogin, btnSignup;
-    private ViewPager viewPager;
+    ActivityWelcomeBinding activityWelcomeBinding;
+    ItemViewClickEvents itemViewClickEvents;
    private Runnable runnable;
     private Handler handler = new Handler(Looper.getMainLooper());
     Timer timer = new Timer();
-    private SlidePagerAdapter slidePagerAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+
+        activityWelcomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_welcome);
+        itemViewClickEvents = new ItemViewClickEvents(this);
+        activityWelcomeBinding.setOnItemClick(itemViewClickEvents);
 
         initViews();
-
-        btnLogin = findViewById(R.id.btnOpenLogin);
-        btnSignup = findViewById(R.id.btnOpenSignUp);
-
-         btnLogin.setOnClickListener(v -> btnLogin.setOnClickListener(view -> startActivity(new Intent(v.getContext(), LoginActivity.class))));
-
-        btnSignup.setOnClickListener(v -> btnSignup.setOnClickListener(view -> startActivity(new Intent(v.getContext(), SignUpServicePersonelActivity.class))));
-
-
-
 
     }
 
 
-
     private void initViews() {
 
-        CircleIndicator indicator = findViewById(R.id.slideDots);
 
-        viewPager = findViewById(R.id.Viewpager);
-        slidePagerAdapter = new SlidePagerAdapter(this);
+        SlidePagerAdapter slidePagerAdapter = new SlidePagerAdapter(this);
 
-        //handler = new Handler();
-
-        viewPager.setAdapter(slidePagerAdapter);
-        indicator.setViewPager(viewPager);
-        indicator.setBackgroundColor(Color.BLACK);
+        activityWelcomeBinding.Viewpager.setAdapter(slidePagerAdapter);
+        activityWelcomeBinding.slideDots.setViewPager(activityWelcomeBinding.Viewpager);
+        activityWelcomeBinding.slideDots.setBackgroundColor(Color.BLACK);
 
 
             runnable = () -> {
 
-                int count = viewPager.getCurrentItem();
+                int count = activityWelcomeBinding.Viewpager.getCurrentItem();
                 if (count == slidePagerAdapter.slideDescriptions.length - 1) {
                     count = 0;
-                    viewPager.setCurrentItem(count, true);
+                    activityWelcomeBinding.Viewpager.setCurrentItem(count, true);
                 } else {
                     count++;
-                    viewPager.setCurrentItem(count, true);
+                    activityWelcomeBinding.Viewpager.setCurrentItem(count, true);
 
                 }
 

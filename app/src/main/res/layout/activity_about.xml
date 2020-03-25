@@ -64,9 +64,10 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgUploadPhoto"
-                android:layout_width="@dimen/TwoHundredDp"
-                android:layout_height="@dimen/TwoHundredDp"
+                android:layout_width="@dimen/OneFiftyDp"
+                android:layout_height="@dimen/OneFiftyDp"
                 android:layout_marginTop="16dp"
+                android:contentDescription="User Profile"
                 android:src="@drawable/defaultavatar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,6 +89,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imgUploadPhoto" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/imgBtnUploadPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/imgUploadPhoto"
+                app:layout_constraintEnd_toEndOf="@+id/imgUploadPhoto"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/imgUploadPhoto"
+                app:layout_constraintTop_toTopOf="@+id/imgUploadPhoto"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@drawable/ic_camera" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
