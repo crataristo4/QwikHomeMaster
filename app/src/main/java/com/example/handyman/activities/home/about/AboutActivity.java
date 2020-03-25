@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,7 @@ public class AboutActivity extends AppCompatActivity {
         }*/
 
         txtAbout = activityAboutBinding.textInputLayoutAbout;
+        activityAboutBinding.txtRecommend.startAnimation(AnimationUtils.loadAnimation(this, R.anim.blinking_text));
 
         activityAboutBinding.btnNext.setOnClickListener(this::validateInputs);
         activityAboutBinding.innerInputAbout.setOnEditorActionListener((v, actionId, event) -> {

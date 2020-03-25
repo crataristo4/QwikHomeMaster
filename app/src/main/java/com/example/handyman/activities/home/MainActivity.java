@@ -6,8 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -15,27 +14,16 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.handyman.R;
 import com.example.handyman.activities.home.about.AboutActivity;
-import com.example.handyman.activities.home.fragments.ActivitiesFragment;
-import com.example.handyman.activities.home.fragments.HistoryFragment;
-import com.example.handyman.activities.home.fragments.HomeFragment;
-import com.example.handyman.activities.home.fragments.NearMeFragment;
-import com.example.handyman.activities.home.fragments.ProfileFragment;
 import com.example.handyman.activities.welcome.SplashScreenActivity;
+import com.example.handyman.databinding.ActivityMainBinding;
 import com.example.handyman.utils.DisplayViewUI;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
-    // fragments here
-    private final FragmentManager fragmentManager = getSupportFragmentManager();
-    private final Fragment homeFragment = new HomeFragment();
-    private final Fragment historyFragment = new HistoryFragment();
-    private final Fragment profileFragment = new ProfileFragment();
-    private final Fragment activityFragment = new ActivitiesFragment();
-    private final Fragment nearMeFragment = new NearMeFragment();
+    public static final String IS_DIALOG_SHOWN = "dialogShown";
     public static final String PREFS = "PREFS";
-    public static final String ISSHOWN = "dialogShown";
+    private ActivityMainBinding activityMainBinding;
 
 
     private FirebaseAuth mAuth;
@@ -44,10 +32,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+
+        checkDisplayAlertDialog();
+
+
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.action_activities, R.id.action_near_me,
+                R.id.action_home, R.id.action_profile, R.id.action_history)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(activityMainBinding.bottomNavigationView, navController);
+
+        mAuth = FirebaseAuth.getInstance();
+        firebaseUser = mAuth.getCurrentUser();
+        if (mAuth.getCurrentUser() == null) {
+            return;
+        }
+
+    }
+
+    private void checkDisplayAlertDialog() {
         SharedPreferences pref = getSharedPreferences(PREFS, 0);
-        boolean alertShown = pref.getBoolean(ISSHOWN, false);
+        boolean alertShown = pref.getBoolean(IS_DIALOG_SHOWN, false);
 
         if (!alertShown) {
 
@@ -61,27 +72,9 @@ public class MainActivity extends AppCompatActivity {
                     });
 
             SharedPreferences.Editor edit = pref.edit();
-            edit.putBoolean(ISSHOWN, true);
+            edit.putBoolean(IS_DIALOG_SHOWN, true);
             edit.apply();
         }
-
-
-        BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.action_home, R.id.action_profile, R.id.action_history, R.id.action_near_me, R.id.action_settings)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
-
-        mAuth = FirebaseAuth.getInstance();
-        firebaseUser = mAuth.getCurrentUser();
-        if (mAuth.getCurrentUser() == null) {
-            return;
-        }
-
     }
 
     private void SendUserToLoginActivity() {

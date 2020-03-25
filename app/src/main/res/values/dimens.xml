@@ -12,5 +12,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="twentyFourDp">24dp</dimen>
     <dimen name="eightyDp">80dp</dimen>
+    <dimen name="TwoHundredDp">200dp</dimen>
     <dimen name="imageIconSize">80dp</dimen>
 </resources>
