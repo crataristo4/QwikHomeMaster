@@ -66,10 +66,6 @@ public class AboutActivity extends AppCompatActivity {
 
         if (!getAbout.trim().isEmpty()) {
 
-           /* Intent gotoJobType = new Intent(v.getContext(),JobTypesActivity.class);
-            gotoJobType.putExtra("about",getAbout);
-            startActivity(gotoJobType);*/
-
             updateServiceAccount(getAbout);
         }
     }
@@ -87,7 +83,12 @@ public class AboutActivity extends AppCompatActivity {
                 loading.dismiss();
                 DisplayViewUI.displayToast(AboutActivity.this, "Successfully updated");
 
+                startActivity(new Intent(AboutActivity.this, JobTypesActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
 
+            } else {
+                DisplayViewUI.displayToast(AboutActivity.this, task.getException().getMessage());
             }
 
         });
