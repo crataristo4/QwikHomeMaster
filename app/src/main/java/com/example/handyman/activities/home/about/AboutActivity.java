@@ -16,7 +16,6 @@ import com.example.handyman.databinding.ActivityAboutBinding;
 import com.example.handyman.utils.DisplayViewUI;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -41,11 +40,11 @@ public class AboutActivity extends AppCompatActivity {
 
         activityAboutBinding = DataBindingUtil.setContentView(this, R.layout.activity_about);
 
-        intent = getIntent();
+      /*  intent = getIntent();
         if (intent != null) {
             uid = intent.getStringExtra("userId");
             accountType = intent.getStringExtra("accountType");
-        }
+        }*/
 
         txtAbout = activityAboutBinding.textInputLayoutAbout;
 
@@ -57,10 +56,10 @@ public class AboutActivity extends AppCompatActivity {
             return true;
         });
 
-        serviceAccountDbRef = FirebaseDatabase.getInstance()
+       /* serviceAccountDbRef = FirebaseDatabase.getInstance()
                 .getReference("Services")
                 .child(accountType)
-                .child(uid);
+                .child(uid);*/
 
     }
 

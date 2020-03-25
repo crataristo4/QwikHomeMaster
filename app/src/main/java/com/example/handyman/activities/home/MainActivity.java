@@ -8,6 +8,10 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.example.handyman.R;
 import com.example.handyman.activities.home.about.AboutActivity;
@@ -30,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private final Fragment profileFragment = new ProfileFragment();
     private final Fragment activityFragment = new ActivitiesFragment();
     private final Fragment nearMeFragment = new NearMeFragment();
+    public static final String PREFS = "PREFS";
+    public static final String ISSHOWN = "dialogShown";
+
 
     private FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
@@ -39,57 +46,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DisplayViewUI.displayAlertDialogMsg(this,
-                "To allow more viewers on your account,please edit profile",
-                "OK", (dialog, which) -> {
-                    if (which == -1) {
+        SharedPreferences pref = getSharedPreferences(PREFS, 0);
+        boolean alertShown = pref.getBoolean(ISSHOWN, false);
 
-                        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-                        SharedPreferences.Editor edit = pref.edit();
-                        edit.putBoolean("done", true);
-                        edit.apply();
-                        dialog.dismiss();
+        if (!alertShown) {
 
-                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
-                    }
-                });
+            DisplayViewUI.displayAlertDialogMsg(this,
+                    "Want to be seen by more users?\nPlease edit profile and add more skills",
+                    "OK", (dialog, which) -> {
+                        if (which == -1) {
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+                            startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                        }
+                    });
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
-            Fragment fragment = null;
-            switch (menuItem.getItemId()) {
-                case R.id.action_activities:
-                    fragment = activityFragment;
-                    break;
-                case R.id.action_near_me:
-                    fragment = nearMeFragment;
-                    break;
-                case R.id.action_home:
-                    fragment = homeFragment;
-                    break;
+            SharedPreferences.Editor edit = pref.edit();
+            edit.putBoolean(ISSHOWN, true);
+            edit.apply();
+        }
 
-                case R.id.action_profile:
-                    fragment = profileFragment;
-                    break;
-                case R.id.action_history:
-                    fragment = historyFragment;
-                    break;
-            }
 
-            assert fragment != null;
-
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.enter_from_right,
-                            R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
-                    .replace(R.id.fragmentContainer, fragment)
-                    //.addToBackStack(null)
-                    .commit();
-
-            return true;
-        });
-
-        bottomNavigationView.setSelectedItemId(R.id.action_home);
+        BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.action_home, R.id.action_profile, R.id.action_history, R.id.action_near_me, R.id.action_settings)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
 
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
@@ -122,9 +107,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-    }
 }
