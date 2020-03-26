@@ -19,6 +19,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+
         txtEmail = findViewById(R.id.txtEmailLayout);
         txtFullName = findViewById(R.id.txtfullNameLayout);
 

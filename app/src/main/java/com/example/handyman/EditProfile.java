@@ -213,7 +213,6 @@ public class EditProfile extends AppCompatActivity {
             final File thumb_imageFile = new File(uri.getPath());
 
             //  compress image file to bitmap surrounding with try catch
-            byte[] thumbBytes = new byte[0];
             try {
                 Bitmap thumb_imageBitmap = new Compressor(this)
                         .setMaxHeight(130)
@@ -223,7 +222,6 @@ public class EditProfile extends AppCompatActivity {
 
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 thumb_imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                thumbBytes = byteArrayOutputStream.toByteArray();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -249,11 +247,10 @@ public class EditProfile extends AppCompatActivity {
                     getImageUri = downLoadUri.toString();
 
 
-                    Map<String, Object> updateThumb = new HashMap<>();
-                    updateThumb.put("image", getImageUri);
-                    updateThumb.put("thumbImage", getImageUri);
+                    Map<String, Object> uploadImage = new HashMap<>();
+                    uploadImage.put("image", getImageUri);
 
-                    mDatabaseReference.updateChildren(updateThumb).addOnCompleteListener(task1 -> {
+                    mDatabaseReference.updateChildren(uploadImage).addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
                             progressDialog.dismiss();
                             Toast toast = Toast.makeText(EditProfile.this, "Successfully changed", Toast.LENGTH_LONG);

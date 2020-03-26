@@ -43,10 +43,12 @@
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:paddingStart="@dimen/eightDp"
+                android:autofillHints="email"
                 android:importantForAutofill="yes"
                 android:paddingEnd="@dimen/eightDp"
                 android:singleLine="true"
-                android:textColor="@color/purple" />
+                android:textColor="@color/purple"
+                tools:targetApi="o" />
 
             <requestFocus />
         </com.google.android.material.textfield.TextInputLayout>

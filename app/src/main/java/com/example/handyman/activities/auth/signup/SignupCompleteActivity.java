@@ -8,10 +8,13 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.example.handyman.R;
 import com.example.handyman.activities.auth.LoginActivity;
+import com.example.handyman.databinding.ActivitySignupCompleteBinding;
 import com.example.handyman.models.ServicePerson;
 import com.example.handyman.utils.DisplayViewUI;
 import com.google.android.material.textfield.TextInputLayout;
@@ -20,6 +23,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class SignupCompleteActivity extends AppCompatActivity {
@@ -29,16 +34,22 @@ public class SignupCompleteActivity extends AppCompatActivity {
     private FirebaseUser firebaseUser;
     private Vibrator vibrator;
     private DatabaseReference usersDbRef, serviceAccountDbRef;
-
+    public static final String PASS = "pass";
+    public static final String CONFIRM_PASS = "confirmPass";
+    private ActivitySignupCompleteBinding activitySignupCompleteBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            Objects.requireNonNull(txtPass.getEditText()).setText(savedInstanceState.getString(PASS));
+            Objects.requireNonNull(txtConfirmPass.getEditText()).setText(savedInstanceState.getString(CONFIRM_PASS));
+        }
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup_complete);
+        activitySignupCompleteBinding = DataBindingUtil.setContentView(this, R.layout.activity_signup_complete);
 
-        txtConfirmPass = findViewById(R.id.ConfirmPasswordLayout);
-        txtPass = findViewById(R.id.PasswordLayout);
-
+        txtConfirmPass = activitySignupCompleteBinding.ConfirmPasswordLayout;
+        txtPass = activitySignupCompleteBinding.PasswordLayout;
 
         Intent getNameEmailIntent = getIntent();
         if (getNameEmailIntent != null) {
@@ -85,26 +96,28 @@ public class SignupCompleteActivity extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
 
-
                     firebaseUser = mAuth.getCurrentUser();
                     assert firebaseUser != null;
                     currentUserId = firebaseUser.getUid();
 
                     // Customer customer = new Customer(currentUserId,email,name);
-
                     ServicePerson servicePerson = new ServicePerson(currentUserId, name, email, accountType);
+                    Map<String, Object> serviceType = new HashMap<>();
+                    serviceType.put("accountType", accountType);
 
 
                     firebaseUser.sendEmailVerification().addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
-
-                           // loading.dismiss();
+                            // loading.dismiss();
                             serviceAccountDbRef.child(accountType)
                                     .child(currentUserId)
                                     .setValue(servicePerson)
                                     .addOnCompleteListener(task2 -> {
 
                                         if (task2.isSuccessful()) {
+
+                                            //create a service type to identify all services
+                                            serviceAccountDbRef.child("ServiceType").child(currentUserId).setValue(serviceType);
 
                                             //vibrates to alert success for android M and above
                                             if (Build.VERSION.SDK_INT >= 26) {
@@ -123,7 +136,7 @@ public class SignupCompleteActivity extends AppCompatActivity {
                                                         dialog.dismiss();
 
                                                         Intent gotoLogin = new Intent(SignupCompleteActivity.this, LoginActivity.class);
-                                                        // gotoLogin.putExtra("accountType", accountType);
+
                                                         startActivity(gotoLogin);
                                                         finish();
 
@@ -152,5 +165,19 @@ public class SignupCompleteActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(PASS, Objects.requireNonNull(txtPass.getEditText()).getText().toString());
+        outState.putString(CONFIRM_PASS, Objects.requireNonNull(txtConfirmPass.getEditText()).getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Objects.requireNonNull(txtPass.getEditText()).setText(savedInstanceState.getString(PASS));
+        Objects.requireNonNull(txtConfirmPass.getEditText()).setText(savedInstanceState.getString(CONFIRM_PASS));
     }
 }

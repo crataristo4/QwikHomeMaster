@@ -1,18 +1,16 @@
 package com.example.handyman.activities.auth.signup;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.handyman.R;
 import com.example.handyman.databinding.ActivitySignUpServicePersonelBinding;
-import com.example.handyman.utils.DisplayViewUI;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
@@ -29,6 +27,12 @@ public class SignUpServicePersonelActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (savedInstanceState != null) {
+            Objects.requireNonNull(txtEmail.getEditText()).setText(savedInstanceState.getString(EMAIL));
+            Objects.requireNonNull(txtFullName.getEditText()).setText(savedInstanceState.getString(FULLNAME));
+        }
+
         super.onCreate(savedInstanceState);
         activitySignUpServicePersonelBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up_service_personel);
 
@@ -68,35 +72,7 @@ public class SignUpServicePersonelActivity extends AppCompatActivity {
             txtEmail.setErrorEnabled(false);
         }
 
-        activitySignUpServicePersonelBinding.spinnerAccountType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    DisplayViewUI.displayToast(view.getContext(), "Please select account type");
-
-                    activitySignUpServicePersonelBinding.btnNext.setEnabled(false);
-                } else if (position == 1) {
-
-                    getAccountType = parent.getItemAtPosition(1).toString();
-                    activitySignUpServicePersonelBinding.btnNext.setEnabled(true);
-
-                } else if (position == 2) {
-                    getAccountType = parent.getItemAtPosition(2).toString();
-                    activitySignUpServicePersonelBinding.btnNext.setEnabled(true);
-
-                } else if (position == 3) {
-                    getAccountType = parent.getItemAtPosition(3).toString();
-                    activitySignUpServicePersonelBinding.btnNext.setEnabled(true);
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
+        getAccountType = (String) spinnerAccountType.getSelectedItem();
 
         if (!txtFullName.getEditText().getText().toString().isEmpty() && !txtEmail.getEditText().getText().toString().isEmpty()) {
             txtFullName.setErrorEnabled(false);
@@ -114,45 +90,21 @@ public class SignUpServicePersonelActivity extends AppCompatActivity {
 
     }
 
-
     @Override
-    protected void onPause() {
-        super.onPause();
-
-        try {
-            SharedPreferences preferences = getSharedPreferences("namePrefs",
-                    MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(FULLNAME, txtFullName.getEditText().getText().toString());
-            editor.putString(EMAIL, txtEmail.getEditText().getText().toString());
-            editor.putString(ACCOUNT_TYPE, spinnerAccountType.getSelectedItem().toString());
-
-            editor.apply();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(FULLNAME, Objects.requireNonNull(txtFullName.getEditText()).getText().toString());
+        outState.putString(EMAIL, Objects.requireNonNull(txtEmail.getEditText()).getText().toString());
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        try {
-            SharedPreferences sharedPreferences = getSharedPreferences("namePrefs",
-                    MODE_PRIVATE);
-            String name = sharedPreferences.getString(FULLNAME, "");
-            String email = sharedPreferences.getString(EMAIL, "");
-            String accountType = sharedPreferences.getString(ACCOUNT_TYPE, "");
-
-            txtFullName.getEditText().setText(name);
-            txtEmail.getEditText().setText(email);
-            spinnerAccountType.setPrompt(accountType);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Objects.requireNonNull(txtEmail.getEditText()).setText(savedInstanceState.getString(EMAIL));
+        Objects.requireNonNull(txtFullName.getEditText()).setText(savedInstanceState.getString(FULLNAME));
     }
+
+
+
 
 }

@@ -194,10 +194,21 @@
                 android:id="@+id/spinnerAccountType"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:entries="@array/userTypes"
                 android:padding="@dimen/eightDp"
+                android:prompt="@string/accountType"
+                android:saveEnabled="true"
                 android:spinnerMode="dialog"
+                app:layout_constraintEnd_toEndOf="@+id/txtEmailLayout"
+                app:layout_constraintStart_toStartOf="@+id/txtEmailLayout"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/accountType"
                 app:layout_constraintEnd_toEndOf="@+id/txtEmailLayout"
                 app:layout_constraintStart_toStartOf="@+id/txtEmailLayout"
                 app:layout_constraintTop_toBottomOf="@+id/txtEmailLayout" />

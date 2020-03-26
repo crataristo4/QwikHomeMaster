@@ -47,6 +47,7 @@
         Want to enjoy quick and affordable services?Don\'t miss out ,sign up nowWant to enjoy quick and affordable services?Don\'t miss out ,sign up now</string>
     <string name="call">CALL</string>
     <string name="message">MESSAGE</string>
+    <string name="accountType">Select your profession</string>
 
 
     <string-array name="plate_initials">
@@ -63,7 +64,6 @@
     </string-array>
 
     <string-array name="userTypes">
-        <item>Select an account type</item>
         <item>Barbers</item>
         <item>Women Hairstylists</item>
         <item>Interior Decorators</item>
@@ -94,4 +94,5 @@
     <string name="add">Add</string>
     <string name="dummyText">Add a picture of what styles you can do,\n the price and the name of what you can do to help others identify you</string>
     <string name="recommend">We recommend that you upload your real photo and professionally tell us about who you are and what you can do</string>
+    <string name="user_profile">User Profile</string>
 </resources>

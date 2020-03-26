@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.handyman.R;
 import com.example.handyman.activities.auth.resetpass.ResetPasswordActivity;
 import com.example.handyman.activities.auth.signup.SignUpServicePersonelActivity;
-import com.example.handyman.activities.home.about.AboutActivity;
+import com.example.handyman.activities.home.MainActivity;
 import com.example.handyman.utils.DisplayViewUI;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                                 assert firebaseUser != null;
                                 //currentUserId = firebaseUser.getUid();
 
-                                Intent gotoAbout = new Intent(LoginActivity.this, AboutActivity.class);
+                                Intent gotoAbout = new Intent(LoginActivity.this, MainActivity.class);
                                 //gotoAbout.putExtra("userId", currentUserId);
                                 // gotoAbout.putExtra("accountType", passAccountTypeValue);
 

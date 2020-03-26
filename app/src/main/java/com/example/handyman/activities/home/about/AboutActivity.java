@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.handyman.R;
+import com.example.handyman.activities.home.MainActivity;
 import com.example.handyman.databinding.ActivityAboutBinding;
 import com.example.handyman.utils.DisplayViewUI;
 import com.google.android.material.textfield.TextInputLayout;
@@ -41,18 +42,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
 public class AboutActivity extends AppCompatActivity {
-    Intent intent;
-    private DatabaseReference userDbRef;
+    public static final String ABOUT = "about";
     private static final String TAG = "AboutActivity";
-    private String uid, accountType, getImageUri;
+    private String uid, about, getImageUri, accountType;
     private ActivityAboutBinding activityAboutBinding;
     private TextInputLayout txtAbout;
     private CircleImageView profileImage;
-    private DatabaseReference serviceAccountDbRef, mDatabaseReference;
+    private DatabaseReference serviceAccountDbRef, serviceTypeDbRef;
     private StorageReference mStorageReference;
     private FirebaseAuth mAuth;
     private Uri uri;
-    public static final String ABOUT = "about";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +64,56 @@ public class AboutActivity extends AppCompatActivity {
 
         activityAboutBinding = DataBindingUtil.setContentView(this, R.layout.activity_about);
 
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser mFirebaseUser = mAuth.getCurrentUser();
+        if (mFirebaseUser == null) {
+            return;
+        }
+        uid = mFirebaseUser.getUid();
+
+        String getDummy = MainActivity.serviceType;
+
+        Log.i(TAG, "onCreate: " + getDummy);
+
+       /* //service type database
+        serviceTypeDbRef = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Services")
+                .child("ServiceType")
+                .child(uid)
+                .child(getDummy);
+
+        serviceTypeDbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                accountType = (String) dataSnapshot.child("accountType").getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+*/
+        serviceAccountDbRef = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Services")
+                .child(getDummy)
+                .child(uid);
+
+
+        profileImage = activityAboutBinding.imgUploadPhoto;
+
+        serviceAccountDbRef.keepSynced(true);
+        mStorageReference = FirebaseStorage.getInstance().getReference("photos");
 
         txtAbout = activityAboutBinding.textInputLayoutAbout;
         activityAboutBinding.txtRecommend.startAnimation(AnimationUtils.loadAnimation(this, R.anim.blinking_text));
+
+        activityAboutBinding.fabUploadPhoto.setOnClickListener(v -> openGallery());
+        profileImage.setOnClickListener(v -> openGallery());
 
         activityAboutBinding.btnNext.setOnClickListener(this::validateInputs);
         activityAboutBinding.innerInputAbout.setOnEditorActionListener((v, actionId, event) -> {
@@ -78,39 +124,107 @@ public class AboutActivity extends AppCompatActivity {
         });
 
 
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
-        FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    }
 
-
-        if (mAuth.getCurrentUser() == null) {
-            return;
-        }
-        assert mFirebaseUser != null;
-        uid = mFirebaseUser.getUid();
-        userDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
-        userDbRef.keepSynced(true);
-        mStorageReference = FirebaseStorage.getInstance().getReference("userPhotos");
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
-
-
-
-
+    private void openGallery() {
+        CropImage.activity()
+                .setAspectRatio(16, 16)
+                .start(AboutActivity.this);
     }
 
     private void validateInputs(View v) {
-        String getAbout = Objects.requireNonNull(txtAbout.getEditText()).getText().toString();
+        about = Objects.requireNonNull(txtAbout.getEditText()).getText().toString();
 
-        if (getAbout.trim().isEmpty()) {
+        if (about.trim().isEmpty()) {
             txtAbout.setErrorEnabled(true);
             txtAbout.setError("field cannot be empty");
         } else {
             txtAbout.setErrorEnabled(false);
         }
 
-        if (!getAbout.trim().isEmpty()) {
+        if (uri == null) {
+            DisplayViewUI.displayToast(this, "Please select a photo to upload");
 
-            updateServiceAccount(getAbout);
+        }
+
+        if (!about.trim().isEmpty() && uri != null) {
+
+            uploadFile();
+        }
+    }
+
+    private void uploadFile() {
+
+
+        if (uri != null) {
+            ProgressDialog progressDialog = DisplayViewUI.displayProgress(this, "please wait...");
+            progressDialog.show();
+
+            final File thumb_imageFile = new File(Objects.requireNonNull(uri.getPath()));
+
+            try {
+                Bitmap thumb_imageBitmap = new Compressor(this)
+                        .setMaxHeight(130)
+                        .setMaxWidth(13)
+                        .setQuality(100)
+                        .compressToBitmap(thumb_imageFile);
+
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                thumb_imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //                file path for the image
+            final StorageReference fileReference = mStorageReference.child(uid + "." + uri.getLastPathSegment());
+
+            fileReference.putFile(uri).continueWithTask(task -> {
+                if (!task.isSuccessful()) {
+                    progressDialog.dismiss();
+                    //throw task.getException();
+                    Log.d(TAG, "then: " + task.getException().getMessage());
+
+                }
+                return fileReference.getDownloadUrl();
+
+            }).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Uri downLoadUri = task.getResult();
+                    assert downLoadUri != null;
+                    getImageUri = downLoadUri.toString();
+
+                    Map<String, Object> updateProfile = new HashMap<>();
+                    updateProfile.put("image", getImageUri);
+                    updateProfile.put("about", about);
+
+
+                    serviceAccountDbRef.updateChildren(updateProfile).addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+
+                            progressDialog.dismiss();
+                            DisplayViewUI.displayToast(this, "Successfully updated");
+
+                            startActivity(new Intent(AboutActivity.this, JobTypesActivity.class)
+                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                            finish();
+
+
+                        } else {
+                            progressDialog.dismiss();
+                            DisplayViewUI.displayToast(this, task1.getException().getMessage());
+
+                        }
+
+                    });
+
+                } else {
+                    progressDialog.dismiss();
+                    DisplayViewUI.displayToast(this, task.getException().getMessage());
+
+                }
+
+            });
         }
     }
 
@@ -155,6 +269,12 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
@@ -194,82 +314,26 @@ public class AboutActivity extends AppCompatActivity {
                 assert result != null;
                 uri = result.getUri();
 
-                Glide.with(AboutActivity.this).load(uri).into(profileImage);
-                uploadFile();
+                Glide.with(AboutActivity.this)
+                        .load(uri)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(profileImage);
+
+                // uploadFile();
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 // progressDialog.dismiss();
                 assert result != null;
                 String error = result.getError().getMessage();
-                Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+                DisplayViewUI.displayToast(this, error);
             }
         }
 
     }
 
-    private void uploadFile() {
-        if (uri != null) {
-            ProgressDialog progressDialog = DisplayViewUI.displayProgress(this, "please wait...");
-            progressDialog.show();
 
+    @Override
+    public void onBackPressed() {
 
-            final File thumb_imageFile = new File(uri.getPath());
-
-            //  compress image file to bitmap surrounding with try catch
-            byte[] thumbBytes = new byte[0];
-            try {
-                Bitmap thumb_imageBitmap = new Compressor(this)
-                        .setMaxHeight(130)
-                        .setMaxWidth(13)
-                        .setQuality(100)
-                        .compressToBitmap(thumb_imageFile);
-
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                thumb_imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                thumbBytes = byteArrayOutputStream.toByteArray();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            //                file path for the image
-            final StorageReference fileReference = mStorageReference.child(uid + "." + uri.getLastPathSegment());
-            //                path for thumb_imageFile
-//                creates another folder called thumb_images in the root directory which is the profile_images
-            Log.i(TAG, "uploadFile: " + uri);
-            fileReference.putFile(uri).continueWithTask(task -> {
-                if (!task.isSuccessful()) {
-                    progressDialog.dismiss();
-                    //throw task.getException();
-                    Log.d(TAG, "then: " + task.getException().getMessage());
-
-                }
-                return fileReference.getDownloadUrl();
-
-            }).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Uri downLoadUri = task.getResult();
-                    assert downLoadUri != null;
-                    getImageUri = downLoadUri.toString();
-
-
-                    Map<String, Object> updateThumb = new HashMap<>();
-                    updateThumb.put("image", getImageUri);
-                    updateThumb.put("thumbImage", getImageUri);
-
-                    mDatabaseReference.updateChildren(updateThumb).addOnCompleteListener(task1 -> {
-                        if (task1.isSuccessful()) {
-                            progressDialog.dismiss();
-                            DisplayViewUI.displayToast(this, "Successfully changed");
-
-                            Log.d(TAG, "onComplete: Image uploading failed");
-                        }
-
-                    });
-
-                }
-
-            });
-        }
     }
 }
