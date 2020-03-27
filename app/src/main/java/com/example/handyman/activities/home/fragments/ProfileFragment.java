@@ -18,6 +18,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.handyman.R;
 import com.example.handyman.activities.home.MainActivity;
 import com.example.handyman.databinding.FragmentProfileBinding;
+import com.example.handyman.utils.DisplayViewUI;
+import com.example.handyman.utils.MyConstants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment";
-    String uid, accountType;
+    String uid, accountType, name, about, imageUrl;
     private FirebaseAuth mAuth;
     private DatabaseReference serviceAccountDbRef, serviceTypeDbRef;
     private FragmentProfileBinding fragmentProfileBinding;
@@ -49,6 +51,17 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
+
+        if (savedInstanceState != null) {
+            fragmentProfileBinding.txtAboutPerson.setText(savedInstanceState.getString(MyConstants.ABOUT));
+            fragmentProfileBinding.txtName.setText(savedInstanceState.getString(MyConstants.NAME));
+            fragmentProfileBinding.txtAccountType.setText(savedInstanceState.getString(MyConstants.ACCOUNT_TYPE));
+
+            Glide.with(getActivity())
+                    .load(savedInstanceState.getString(MyConstants.IMAGE_URL))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(fragmentProfileBinding.imgProfilePhoto);
+        }
         return fragmentProfileBinding.getRoot();
     }
 
@@ -84,16 +97,16 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 accountType = (String) dataSnapshot.child("accountType").getValue();
-                String name = (String) dataSnapshot.child("name").getValue();
-                String image = (String) dataSnapshot.child("image").getValue();
-                String about = (String) dataSnapshot.child("about").getValue();
+                name = (String) dataSnapshot.child("name").getValue();
+                imageUrl = (String) dataSnapshot.child("image").getValue();
+                about = (String) dataSnapshot.child("about").getValue();
 
                 txtAbout.setText(about);
                 txtName.setText(name);
                 txtServiceType.setText(accountType);
 
                 Glide.with(getActivity())
-                        .load(image)
+                        .load(imageUrl)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(mPhoto);
 
@@ -101,9 +114,23 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                DisplayViewUI.displayToast(getActivity(), databaseError.getMessage());
 
             }
         });
 
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(MyConstants.ACCOUNT_TYPE, accountType);
+        outState.putString(MyConstants.NAME, name);
+        outState.putString(MyConstants.ABOUT, about);
+        outState.putString(MyConstants.IMAGE_URL, imageUrl);
+    }
+
+
+
+
 }

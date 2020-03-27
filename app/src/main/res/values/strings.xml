@@ -95,4 +95,5 @@
     <string name="dummyText">Add a picture of what styles you can do,\n the price and the name of what you can do to help others identify you</string>
     <string name="recommend">We recommend that you upload your real photo and professionally tell us about who you are and what you can do</string>
     <string name="user_profile">User Profile</string>
+    <string name="about">About</string>
 </resources>

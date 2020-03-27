@@ -1,21 +1,33 @@
 package com.example.handyman.models;
 
-public class ServicePerson {
-    private float rating;
-    private String userId;
-    private String name, email;
-    private String reason;
-    private double latitude, longitude;
-    private String occupation;
-    private String response;
-    private  String location;
-    private String date;
-    private String about, number, accountType;
-    private  String image;
-    private String distanceBetween;
-    private  String senderPhoto;
-    private String senderName;
-    private String handyManName,handyManPhoto;
+import android.content.Context;
+
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.BindingAdapter;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class ServicePerson extends BaseObservable {
+
+    public float rating;
+    public String userId;
+    public String name, email;
+    public String reason;
+    public double latitude, longitude;
+    public String occupation;
+    public String response;
+    public String location;
+    public String date;
+    public String about, number, accountType;
+    public String image;
+    public String distanceBetween;
+    public String senderPhoto;
+    public String senderName;
+    public String handyManName, handyManPhoto;
 
 
 
@@ -29,8 +41,13 @@ public class ServicePerson {
         this.accountType = accountType;
     }
 
-    public float getRating() {
-        return rating;
+    @BindingAdapter("imageUrl")
+    public static void loadImages(CircleImageView imageView, String imageUrl) {
+        Context context = imageView.getContext();
+        Glide.with(context)
+                .load(imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
     }
 
     public void setRating(float rating) {
@@ -45,24 +62,27 @@ public class ServicePerson {
         this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    @Bindable
+    public float getRating() {
+        return rating;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    @Bindable
+    public String getName() {
+        return name;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getReason() {
-        return reason;
+    @Bindable
+    public String getEmail() {
+        return email;
     }
 
     public void setReason(String reason) {
@@ -101,48 +121,54 @@ public class ServicePerson {
         this.response = response;
     }
 
-    public String getLocation() {
-        return location;
+    @Bindable
+    public String getReason() {
+        return reason;
     }
 
     public void setLocation(String location) {
         this.location = location;
     }
 
-    public String getDate() {
-        return date;
+    @Bindable
+    public String getLocation() {
+        return location;
     }
 
     public void setDate(String date) {
         this.date = date;
     }
 
-    public String getAbout() {
-        return about;
+    @Bindable
+    public String getDate() {
+        return date;
     }
 
     public void setAbout(String about) {
         this.about = about;
     }
 
-    public String getNumber() {
-        return number;
+    @Bindable
+    public String getAbout() {
+        return about;
     }
 
     public void setNumber(String number) {
         this.number = number;
     }
 
-    public String getAccountType() {
-        return accountType;
+    @Bindable
+    public String getNumber() {
+        return number;
     }
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
     }
 
-    public String getImage() {
-        return image;
+    @Bindable
+    public String getAccountType() {
+        return accountType;
     }
 
     public void setImage(String image) {
@@ -165,16 +191,18 @@ public class ServicePerson {
         this.senderPhoto = senderPhoto;
     }
 
-    public String getSenderName() {
-        return senderName;
+    @Bindable
+    public String getImage() {
+        return image;
     }
 
     public void setSenderName(String senderName) {
         this.senderName = senderName;
     }
 
-    public String getHandyManName() {
-        return handyManName;
+    @Bindable
+    public String getSenderName() {
+        return senderName;
     }
 
     public void setHandyManName(String handyManName) {
@@ -187,5 +215,10 @@ public class ServicePerson {
 
     public void setHandyManPhoto(String handyManPhoto) {
         this.handyManPhoto = handyManPhoto;
+    }
+
+    @Bindable
+    public String getHandyManName() {
+        return handyManName;
     }
 }
