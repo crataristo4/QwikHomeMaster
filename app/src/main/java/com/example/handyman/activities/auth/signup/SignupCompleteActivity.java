@@ -28,14 +28,14 @@ import java.util.Map;
 import java.util.Objects;
 
 public class SignupCompleteActivity extends AppCompatActivity {
+    public static final String PASS = "pass";
+    public static final String CONFIRM_PASS = "confirmPass";
     private String name, email, accountType, currentUserId;
     private TextInputLayout txtPass, txtConfirmPass;
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
     private Vibrator vibrator;
     private DatabaseReference usersDbRef, serviceAccountDbRef;
-    public static final String PASS = "pass";
-    public static final String CONFIRM_PASS = "confirmPass";
     private ActivitySignupCompleteBinding activitySignupCompleteBinding;
 
     @Override
@@ -79,7 +79,7 @@ public class SignupCompleteActivity extends AppCompatActivity {
 
         }
 
-        if (!password.equals(confirmpassword)){
+        if (!password.equals(confirmpassword)) {
             txtPass.setErrorEnabled(true);
             txtPass.setError("passwords do not match");
         } else {
@@ -105,54 +105,37 @@ public class SignupCompleteActivity extends AppCompatActivity {
                     Map<String, Object> serviceType = new HashMap<>();
                     serviceType.put("accountType", accountType);
 
+                    //send email verification to user
+                    firebaseUser.sendEmailVerification();
 
-                    firebaseUser.sendEmailVerification().addOnCompleteListener(task1 -> {
-                        if (task1.isSuccessful()) {
-                            // loading.dismiss();
-                            serviceAccountDbRef.child(accountType)
-                                    .child(currentUserId)
-                                    .setValue(servicePerson)
-                                    .addOnCompleteListener(task2 -> {
+                    //create a service type to identify all services
+                    serviceAccountDbRef.child("ServiceType").child(currentUserId).setValue(serviceType);
 
-                                        if (task2.isSuccessful()) {
+                    //create user details
+                    serviceAccountDbRef.child(accountType).child(currentUserId).setValue(servicePerson);
 
-                                            //create a service type to identify all services
-                                            serviceAccountDbRef.child("ServiceType").child(currentUserId).setValue(serviceType);
 
-                                            //vibrates to alert success for android M and above
-                                            if (Build.VERSION.SDK_INT >= 26) {
-                                                vibrator.vibrate(VibrationEffect.createOneShot
-                                                        (2000, VibrationEffect.DEFAULT_AMPLITUDE));
-                                            } else {
-                                                //vibrate below android M
-                                                vibrator.vibrate(2000);
+                    //vibrates to alert success for android M and above
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        vibrator.vibrate(VibrationEffect.createOneShot
+                                (2000, VibrationEffect.DEFAULT_AMPLITUDE));
+                    } else {
+                        //vibrate below android M
+                        vibrator.vibrate(2000);
 
-                                            }
-                                            loading.dismiss();
-                                            DisplayViewUI.displayAlertDialogMsg(SignupCompleteActivity.this,
-                                                    "Hello" + " " + name + " " + "\n" + "an email verification link has been sent to " + email + "\n" +
-                                                            "please verify to continue",
-                                                    "ok", (dialog, which) -> {
-                                                        dialog.dismiss();
+                    }
+                    DisplayViewUI.displayAlertDialogMsg(SignupCompleteActivity.this,
+                            "Hello" + " " + name + " " + "\n" + "an email verification link has been sent to " + email + "\n" +
+                                    "please verify to continue",
+                            "ok", (dialog, which) -> {
+                                dialog.dismiss();
 
-                                                        Intent gotoLogin = new Intent(SignupCompleteActivity.this, LoginActivity.class);
+                                Intent gotoLogin = new Intent(SignupCompleteActivity.this, LoginActivity.class);
 
-                                                        startActivity(gotoLogin);
-                                                        finish();
+                                startActivity(gotoLogin);
+                                finish();
 
-                                                    });
-                                        }
-
-                                    });
-                        } else {
-
-                            loading.dismiss();
-                            String error = task.getException().getMessage();
-                            DisplayViewUI.displayToast(view.getContext(), error);
-
-                        }
-
-                    });
+                            });
 
                 } else {
 

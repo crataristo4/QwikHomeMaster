@@ -29,27 +29,38 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".activities.home.serviceTypes.AllDecoratorsActivity"
+            android:parentActivityName=".activities.home.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activities.home.serviceTypes.AllHairStylistActivity"
+            android:parentActivityName=".activities.home.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.home.serviceTypes.AllBarbersActivity"
+            android:parentActivityName=".activities.home.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activities.auth.signup.SignUpServicePersonelActivity"
             android:alwaysRetainTaskState="true"
-            android:exported="true" />
-        <activity
-            android:theme="@style/AppTheme.NoActionBar"
-            android:alwaysRetainTaskState="true"
             android:exported="true"
-            android:name=".activities.home.about.JobTypesActivity"
-            android:configChanges="screenSize|orientation"
-            android:parentActivityName=".activities.home.about.AboutActivity" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".activities.home.about.JobTypesActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="screenSize|orientation"
+            android:exported="true"
+            android:parentActivityName=".activities.home.about.AboutActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activities.home.about.AboutActivity"
             android:alwaysRetainTaskState="true"
-            android:configChanges="orientation|screenSize"
-            android:exported="true">
-
-        </activity>
+            android:configChanges="keyboardHidden|screenSize|screenLayout|orientation"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.home.MainActivity"
+            android:configChanges="keyboardHidden|screenSize|screenLayout|orientation"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,32 +68,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.auth.resetpass.ResetPasswordActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="keyboardHidden|screenSize|screenLayout|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.auth.signup.SignupCompleteActivity"
             android:alwaysRetainTaskState="true"
-            android:configChanges="screenSize|orientation"
-            android:exported="true" />
+            android:configChanges="keyboardHidden|screenSize|screenLayout|orientation"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.auth.signup.SignupActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="keyboardHidden|screenSize|screenLayout|orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.auth.LoginActivity"
             android:alwaysRetainTaskState="true"
-            android:configChanges="screenSize|orientation"
-            android:exported="true" />
-
+            android:configChanges="keyboardHidden|screenSize|screenLayout|orientation"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.welcome.OnboardingScreenActivity" />
         <activity android:name=".activities.customeractivity.ShowRouteActivity" />
         <activity
@@ -90,10 +99,10 @@
             android:excludeFromRecents="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.customeractivity.ChatActivity"
             android:configChanges="screenSize|orientation"
-            android:parentActivityName=".activities.handymanactivity.RequestHandyManActivity" />
+            android:parentActivityName=".activities.handymanactivity.RequestHandyManActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.customeractivity.MyMapActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

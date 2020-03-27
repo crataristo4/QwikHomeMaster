@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.handyman.R;
-import com.example.handyman.databinding.ListItemsServicesBinding;
+import com.example.handyman.databinding.LayoutListItemsBinding;
 import com.example.handyman.models.ServicePerson;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -39,19 +39,19 @@ public class AllBarbersAdapter extends FirebaseRecyclerAdapter<ServicePerson,
     @NonNull
     @Override
     public AllBarbersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        ListItemsServicesBinding listItemsServicesBinding = DataBindingUtil.inflate
+        LayoutListItemsBinding listItemsServicesBinding = DataBindingUtil.inflate
                 (LayoutInflater.from(viewGroup.getContext()),
-                        R.layout.list_items_services, viewGroup, false);
+                        R.layout.layout_list_items, viewGroup, false);
 
         return new AllBarbersViewHolder(listItemsServicesBinding);
     }
 
     static class AllBarbersViewHolder extends RecyclerView.ViewHolder {
 
-        ListItemsServicesBinding listItemsServicesBinding;
+        LayoutListItemsBinding listItemsServicesBinding;
         CardView cardView;
 
-        AllBarbersViewHolder(@NonNull ListItemsServicesBinding listItemsServicesBinding) {
+        AllBarbersViewHolder(@NonNull LayoutListItemsBinding listItemsServicesBinding) {
             super(listItemsServicesBinding.getRoot());
 
             this.listItemsServicesBinding = listItemsServicesBinding;

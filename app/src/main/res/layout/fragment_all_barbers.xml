@@ -12,6 +12,6 @@
             android:id="@+id/rvAllBarbers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/list_items_services" />
+            tools:listitem="@layout/layout_list_items" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
